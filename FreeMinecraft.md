@@ -52,12 +52,15 @@ We have a website and a youtube link. Apparently, the user has followed the guid
 
 <img width="959" height="533" alt="image" src="https://github.com/user-attachments/assets/9d2cf437-faa5-4f92-8aca-a9f053f870d8" />
 
-Follow the `codeberg` link, which is a platform similar to Github, we are presented with four shell script files:
+Follow the `codeberg` link, a platform similar to Github, we are presented with four shell script files which was fetched to the bash:
 
 <img width="959" height="565" alt="image" src="https://github.com/user-attachments/assets/65996ad4-fe87-4e8b-9ebf-2901ab3a5878" />
 
+- `dowloader.sh`
 
+<img width="1845" height="901" alt="image" src="https://github.com/user-attachments/assets/220c1583-a028-474c-8999-f8f456198c68" />
 
+This script set up a de
 
 
 
