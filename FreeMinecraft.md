@@ -32,11 +32,9 @@ Wandering around for more, there is a symlink called `minecrap` containing `/tmp
 
 <img width="959" height="562" alt="image" src="https://github.com/user-attachments/assets/34272f18-ade6-4c8f-8487-abde40440f59" />
 
-From these two file, we can infer that our `cool_user` is infected with ransomware while attempting to crack the game Minecraft and downloading from untrusted source from the Internet, I suppose.
+From these two file, we can infer that our `cool_user` is infected with ransomware while attempting to crack the game Minecraft and downloading from untrusted source from the Internet.
 
-I suppose we would like to trace back the downloader. Unfortunately, `/tmp` is empty, since it is self-destructive. But we can look up the user's browser history to retrieve what was lost, I suppose. 
-
-We can see that the user is using the browser Mozilla Firefox. After doing some research on the whereabouts of Firefox history on Linux, I found:
+I suppose we would like to trace back the downloader. Unfortunately, `/tmp` is empty, since it is self-destructive. But we can look up the user's browser history to retrieve what was lost. We can see that the user is using the browser Mozilla Firefox. After doing some research on the whereabouts of Firefox history on Linux, I found:
 
 <img width="959" height="560" alt="image" src="https://github.com/user-attachments/assets/32fe6bf7-7524-4b7b-96da-8bcb55af3b6e" />
 
